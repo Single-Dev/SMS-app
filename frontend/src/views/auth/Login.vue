@@ -32,7 +32,9 @@
             </div>
 
             <!-- Submit button -->
-            <button type="submit" class="btn btn-outline-dark btn-block mb-4">Login</button>
+            <button
+            @click="$emit('Login', username, password)"
+            type="submit" class="btn btn-outline-dark btn-block mb-4">Login</button>
         </div>
     </form>
     </div>
@@ -42,12 +44,12 @@ import axios from 'axios'
 
 export default {
     name: 'Login',
-    // data() {
-    //     return {
-    //         username: '',
-    //         password: '',
-    //     }
-    // },
+    data() {
+        return {
+            username: '',
+            password: '',
+        }
+    },
 }
 </script>
 <style ></style>
