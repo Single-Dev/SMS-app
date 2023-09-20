@@ -4,7 +4,6 @@
     <router-link to="/login">Login</router-link> |
     <router-link to="/sign-up">SignUp</router-link>
   </nav>
-  <button @click="getMe">Check for auth</button>
   <router-view @Login="Login" @Signup="Signup" />
 </template>
 <script>

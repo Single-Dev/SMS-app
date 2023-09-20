@@ -29,6 +29,7 @@
 
                             <!-- Submit button -->
                             <button
+                            @click="$emit('Signup',email, username, password)"
                             type="submit"
                             class="btn btn-outline-dark btn-block mb-4"
                             >
@@ -66,13 +67,13 @@ import axios from 'axios'
 
 export default {
     name: 'SignUp',
-    // data() {
-    //     return {
-    //         email: '',
-    //         username: '',
-    //         password: '',
-    //     }
-    // },
+    data() {
+        return {
+            email: '',
+            username: '',
+            password: '',
+        }
+    },
 }
 </script>
 <style scoped>
