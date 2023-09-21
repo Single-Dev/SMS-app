@@ -3,6 +3,7 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/login">Login</router-link> |
     <router-link to="/sign-up">SignUp</router-link>
+    <button @click="getMe">Chekc</button>
   </nav>
   <router-view @Login="Login" @Signup="Signup" />
 </template>
@@ -69,6 +70,13 @@ export default {
         alert(error.message)
       }
     },
+  },
+  mounted() {
+    axios.get('/api/v1/users/reset_password_confirm/')
+      .then(response =>{
+        console.log(response);
+      })
+      this.beforeCrete()
   },
 }
 </script>

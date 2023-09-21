@@ -34,7 +34,13 @@ REST_FRAMEWORK = {
     ),
 }
 
-# Application definition
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': 'api/v1/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': 'api/v1/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'api/v1/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {},
+}
 
 # Application definition
 
@@ -116,6 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Emails
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
