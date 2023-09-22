@@ -72,10 +72,6 @@ export default {
     },
   },
   mounted() {
-    axios.get('/api/v1/users/reset_password_confirm/')
-      .then(response =>{
-        console.log(response);
-      })
       this.beforeCrete()
   },
 }
