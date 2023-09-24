@@ -1,89 +1,134 @@
-<template >
-    <!-- Section: Design Block -->
-    <section class="text-center">
-        <!-- Background image -->
-        <div class="p-5 bg-image bg"></div>
-        <!-- Background image -->
-
-        <div class="card mx-4 mx-md-5 shadow-5-strong bg_2">
-            <div class="card-body py-5 px-md-5">
-
-                <div class="row d-flex justify-content-center">
-                    <div class="col-lg-8">
-                        <h2 class="fw-bold mb-5">Sign up now</h2>
-                        <form @submit.prevent>
-                            <!-- Email input -->
-                            <div class="form-outline mb-4">
-                                <input type="email" id="email" class="form-control" v-model="email"/>
-                                <label class="form-label" for="email">Email address</label>
-                            </div>
-                            <div class="form-outline mb-4">
-                                <input type="text" id="username" class="form-control" v-model="username"/>
-                                <label class="form-label" for="username">Username</label>
-                            </div>
-                            <!-- Password input -->
-                            <div class="form-outline mb-4">
-                                <input type="password" id="password" class="form-control" v-model="password"/>
-                                <label class="form-label" for="password">Password</label>
-                            </div>
-
-                            <!-- Submit button -->
-                            <button
-                            @click="$emit('Signup',email, username, password)"
-                            type="submit"
-                            class="btn btn-outline-dark btn-block mb-4"
-                            >
-                                Sign up
-                            </button>
-
-                            <!-- Register buttons -->
-                            <div class="text-center">
-                                <p>or sign up with:</p>
-                                <button type="button" class="btn btn-link btn-floating mx-1">
-                                    <i class="fab fa-facebook-f"></i>
-                                </button>
-
-                                <button type="button" class="btn btn-link btn-floating mx-1">
-                                    <i class="fab fa-google"></i>
-                                </button>
-
-                                <button type="button" class="btn btn-link btn-floating mx-1">
-                                    <i class="fab fa-twitter"></i>
-                                </button>
-
-                                <button type="button" class="btn btn-link btn-floating mx-1">
-                                    <i class="fab fa-github"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+<template>
+    <div class="signup">
+      <h2>Sign Up</h2>
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            v-model="formData.username"
+            required
+          />
         </div>
-    </section>
-</template>
-<script>
-import axios from 'axios'
-
-export default {
-    name: 'SignUp',
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            v-model="formData.email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            v-model="formData.password"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            v-model="formData.confirmPassword"
+            required
+          />
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </template>
+  
+  <script>
+  export default {
     data() {
-        return {
-            email: '',
-            username: '',
-            password: '',
+      return {
+        formData: {
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
         }
+      };
     },
-}
-</script>
-<style scoped>
-.bg{
-    background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
-    height: 300px;
-}
-.bg_2{
-    margin-top: -100px;
-    background: hsla(0, 0%, 100%, 0.8);
-    backdrop-filter: blur(30px);
-}
-</style>
+    methods: {
+      submitForm() {
+        // Validate the form data here (e.g., check for password match)
+        if (this.formData.password !== this.formData.confirmPassword) {
+          alert("Passwords do not match.");
+          return;
+        }
+        this.$emit('Signup',this.formData.email, this.formData.username, this.formData.password)
+  
+        // Handle form submission (e.g., send data to the server)
+        // You can add your code here to send the data to the backend
+  
+        // Reset the form after submission
+        this.formData = {
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: ''
+        };
+        // @click="$emit('Signup',email, username, password)"
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
+  /* Signup page styles */
+  .signup {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  </style>
+  

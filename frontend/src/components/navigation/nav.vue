@@ -1,42 +1,79 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <router-link to="/" class="navbar-brand">Your App Name</router-link>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <router-link to="/" class="nav-link">Home</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/about" class="nav-link">About</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/contact" class="nav-link">Contact</router-link>
-            </li>
-          </ul>
-        </div>
+    <div class="navbar">
+      <div class="logo">
+        <router-link to="/" class="a">Free Cash</router-link>
       </div>
-    </nav>
+      <ul class="nav-links">
+        <li><router-link to="/" class="a">Home</router-link></li>
+        <li><router-link to="/login" class="a">Sign In</router-link></li>
+        <li><router-link to="/sign-up" class="a">Sign Up</router-link></li>
+      </ul>
+    </div>
   </template>
   
-  <script>
-  export default {
-    name: 'Navbar',
-  };
-  </script>
-  
   <style scoped>
-  /* Add any custom styles here */
+  /* Navbar styles */
+  .navbar {
+    background-color: #333;
+    overflow: hidden;
+  }
+  
+  /* Logo styles */
+  .logo {
+    float: left;
+  }
+  
+  .logo .a {
+    display: block;
+    color: #fff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Navigation links styles */
+  .nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: right;
+  }
+  
+  .nav-links li {
+    display: inline-block;
+  }
+  
+  .nav-links li .a {
+    display: block;
+    color: #fff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Responsive styles */
+  @media screen and (max-width: 600px) {
+    .navbar {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .logo {
+      text-align: center;
+    }
+  
+    .nav-links {
+      float: none;
+      text-align: center;
+    }
+  
+    .nav-links li {
+      display: block;
+    }
+  
+    .nav-links li .a {
+      padding: 10px 0;
+    }
+  }
   </style>
   

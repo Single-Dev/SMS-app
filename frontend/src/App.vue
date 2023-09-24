@@ -1,82 +1,99 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <router-link to="/" class="navbar-brand">Your App Name</router-link>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link">Home</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/about" class="nav-link">About</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/contact" class="nav-link">Contact</router-link>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <Navbar />
+  <router-view @Login="Login" @Signup="Signup" />
 </template>
-
 <script>
+import axios from 'axios'
+import Navbar from '@/components/navigation/nav.vue'
 export default {
-  name: 'Navbar',
-};
+  components:{
+    Navbar 
+  },
+  data() {
+    return {
+      IsAuthenticated: false,
+      username: '',
+      user_id: '',
+    }
+  },
+  methods: {
+    beforeCrete() {
+      this.$store.commit('initializeStore')
+      const token = this.$store.state.token
+      this.IsAuthenticated = this.$store.state.IsAuthenticated
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = "Token " + token
+      } else {
+        axios.defaults.headers.common['Authorization'] = ''
+      }
+    },
+    getMe() {
+      axios.get('/api/v1/users/me/')
+        .then(response => {
+          this.username = response.data.username
+          this.user_id = response.data.id
+          console.log(this.username);
+        })
+        .catch(error => {
+          this.$router.push('/login')
+        })
+    },
+    async Signup(email, username, password) {
+      const formData = {
+        email: email,
+        username: username,
+        password: password,
+      }
+      try {
+        await axios.post('/api/v1/users/', formData)
+        this.$router.push('/login')
+      } catch (error) {
+        alert(error.message)
+      }
+    },
+    async Login(username, password) {
+      const formData = { username: username, password: password }
+      try {
+        const response = await axios.post('/api/v1/token/login/', formData)
+
+        const token = response.data.auth_token
+
+        this.$store.commit('setToken', token)
+
+        axios.defaults.headers.common['Authorization'] = "Token " + token
+
+        localStorage.setItem('token', token)
+        this.IsAuthenticated = true
+        this.$router.push('/')
+      } catch (error) {
+        alert(error.message)
+      }
+    },
+  },
+  mounted() {
+      this.beforeCrete()
+  },
+}
 </script>
-
-<style scoped>
-/* Custom styles for the Navbar */
-.navbar {
-  border-radius: 0;
-  padding: 20px 0; /* Increase top and bottom padding */
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
-.navbar-brand {
-  font-size: 32px;
-  font-weight: bold;
-}
+nav {
+  padding: 30px;
 
-.navbar-toggler-icon {
-  background-color: #fff;
-  border-radius: 4px;
-}
+  a {
+    font-weight: bold;
+    color: #2c3e50;
 
-.nav-item {
-  margin: 0 20px;
-}
-
-.nav-link {
-  color: #fff;
-  font-weight: 600;
-  font-size: 18px;
-  transition: color 0.3s ease-in-out;
-}
-
-.nav-link:hover {
-  color: #f8f9fa; /* Lighter color on hover */
-}
-
-/* Add a background color change on scroll */
-.navbar.scrolled {
-  background-color: #fff;
-  transition: background-color 0.3s ease-in-out;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-}
-
-.nav-link.scrolled {
-  color: #333; /* Change text color on scroll */
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>
