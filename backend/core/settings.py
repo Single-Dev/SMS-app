@@ -17,9 +17,6 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080",
-    "http://localhost:8081",
-    "http://127.0.0.1:8000",
-    "http://192.168.43.126:8080"
 ]
 
 REST_FRAMEWORK = {
@@ -34,13 +31,13 @@ REST_FRAMEWORK = {
     ),
 }
 
-DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': 'api/v1/reset_password_confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': 'api/v1/username/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': 'api/v1/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
-    'SERIALIZERS': {},
-}
+# DJOSER = {
+#     'PASSWORD_RESET_CONFIRM_URL': 'api/v1/reset_password_confirm/{uid}/{token}',
+#     'USERNAME_RESET_CONFIRM_URL': 'api/v1/username/reset/confirm/{uid}/{token}',
+#     'ACTIVATION_URL': 'api/v1/activate/{uid}/{token}',
+#     'SEND_ACTIVATION_EMAIL': True,
+#     'SERIALIZERS': {},
+# }
 
 # Application definition
 
@@ -123,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Emails
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

@@ -41,7 +41,7 @@ export default {
     async Signup(email, username, password) {
       const formData = {
         email: email,
-        username: username,
+        username: username.toLowerCase(),
         password: password,
       }
       try {
@@ -54,7 +54,7 @@ export default {
     async Login(username, password) {
       const formData = { username: username, password: password }
       try {
-        const response = await axios.post('/api/v1/token/login/', formData)
+        const response = await axios.post('/api/auth/token/login/', formData)
 
         const token = response.data.auth_token
 
