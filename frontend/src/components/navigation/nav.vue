@@ -1,79 +1,23 @@
+<script setup>
+import { Navbar, NavbarLogo, NavbarCollapse, NavbarLink } from 'flowbite-vue'
+</script>
 <template>
-    <div class="navbar">
-      <div class="logo">
-        <router-link to="/" class="a">Free Cash</router-link>
-      </div>
-      <ul class="nav-links">
-        <li><router-link to="/" class="a">Home</router-link></li>
-        <li><router-link to="/login" class="a">Sign In</router-link></li>
-        <li><router-link to="/sign-up" class="a">Sign Up</router-link></li>
-      </ul>
-    </div>
-  </template>
-  
-  <style scoped>
-  /* Navbar styles */
-  .navbar {
-    background-color: #333;
-    overflow: hidden;
-  }
-  
-  /* Logo styles */
-  .logo {
-    float: left;
-  }
-  
-  .logo .a {
-    display: block;
-    color: #fff;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  /* Navigation links styles */
-  .nav-links {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    float: right;
-  }
-  
-  .nav-links li {
-    display: inline-block;
-  }
-  
-  .nav-links li .a {
-    display: block;
-    color: #fff;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  /* Responsive styles */
-  @media screen and (max-width: 600px) {
-    .navbar {
-      display: flex;
-      flex-direction: column;
-    }
-  
-    .logo {
-      text-align: center;
-    }
-  
-    .nav-links {
-      float: none;
-      text-align: center;
-    }
-  
-    .nav-links li {
-      display: block;
-    }
-  
-    .nav-links li .a {
-      padding: 10px 0;
-    }
-  }
-  </style>
-  
+    <Navbar>
+      <template #logo>
+        <NavbarLogo link="https://www.google.com/" alt="Flowbite logo" image-url="https://flowbite.com/docs/images/logo.svg">
+          Flowbite
+        </NavbarLogo>
+      </template>
+      <template #default="{isShowMenu}">
+        <NavbarCollapse :isShowMenu="isShowMenu">
+          <NavbarLink is-active>Home</NavbarLink>
+          <NavbarLink>Services</NavbarLink>
+          <NavbarLink>Pricing</NavbarLink>
+          <NavbarLink>Contact</NavbarLink>
+        </NavbarCollapse>
+      </template>
+      <template #menu-icon>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+      </template>
+    </Navbar>
+</template>
