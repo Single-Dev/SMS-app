@@ -1,12 +1,14 @@
 <template>
     <div>
-        <MDBNavbar dark bg="dark" position="top" >
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">E-Cash</a>
-                    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarColor02"
-                        aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-bars"></i>
+                    <button
+                    @click="toggler"
+                    class="navbar-toggler"
+                    type="button"
+                    >
+                    <i class="fas fa-bars"></i>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarColor02">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -26,17 +28,19 @@
                     </div>
                 </div>
             </nav>
-        </MDBNavbar>
+       
     </div>
 </template>
 <script>
-import { MDBNavbar } from 'mdb-vue-ui-kit';
-
-export default {
-    components: {
-        MDBNavbar,
+export default{
+    methods: {
+        toggler(){
+            let collapse = document.querySelector('.collapse')
+            
+            collapse.classList.toggle('show')
+        }
     },
-};
+}
 </script>
 <style lang="">
     
