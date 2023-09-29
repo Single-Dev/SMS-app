@@ -1,5 +1,5 @@
 <template>
-  <Navbar/>
+  <Navbar username="username" IsAuthenticated="IsAuthenticated"/>
   <router-view @Login="Login" @Signup="Signup" />
 </template>
 <script>

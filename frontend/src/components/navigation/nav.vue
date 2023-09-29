@@ -13,17 +13,19 @@
                     <div class="collapse navbar-collapse" id="navbarColor02">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item active">
-                                <a class="nav-link" aria-current="page" href="#">Home</a>
+                                <router-link class="nav-link" to="/">Home</router-link>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Features</a>
+                            <li v-if="IsAuthenticated" class="nav-item">
+                                <router-link class="nav-link" :to='"/@" + username'>Profile</router-link>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About</a>
-                            </li>
+                            <div v-else>
+                                <li class="nav-item">
+                                    <router-link class="nav-link" to="/login">Login</router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link class="nav-link" to="/sign-up">Sign Up</router-link>
+                                </li>
+                            </div>
                         </ul>
                     </div>
                 </div>
@@ -33,6 +35,16 @@
 </template>
 <script>
 export default{
+    props:{
+        IsAuthenticated:{
+            type: String,
+            required: true
+        },
+        username:{
+            type: String,
+            required: true
+        }
+    },
     methods: {
         toggler(){
             let collapse = document.querySelector('.collapse')
