@@ -10,28 +10,28 @@ from django.shortcuts import get_object_or_404
 @api_view(["GET"])
 @permission_classes((permissions.AllowAny, ))
 def UserApiView(request, username):
-    user = User.objects.get(username=username)
+    user = CustomUser.objects.get(username=username)
     serializer = UsersSerializer(user, many=False)
     return Response(serializer.data)
 
 @api_view(["GET"])
 @permission_classes((permissions.AllowAny, ))
 def UserIDApiView(request, pk):
-    user = User.objects.get(id=pk)
+    user = CustomUser.objects.get(id=pk)
     serializer = UsersSerializer(user, many=False)
     return Response(serializer.data)
 
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def UpdataUserApiView(request, pk):
-    user = User.objects.get(id=pk)
+    user = CustomUser.objects.get(id=pk)
     serializer = UsersSerializer(instance=user, data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
 
 class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UsersSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['username', 'first_name']
