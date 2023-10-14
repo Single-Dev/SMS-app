@@ -1,26 +1,22 @@
 <template>
-    <div>
+    <div class="d-flex justify-content-center align-items-center wrapper" v-if="!user_found && !isLoading">
+        <h1>@{{ profile_username }} topilmadi..</h1>
+    </div>
+    <div class="wrapper d-flex justify-content-center align-items-center" v-else-if="isLoading">
+        <!-- <loader/> -->
+        <p>Loading...</p>
+    </div>
+    <div v-else>
         <div class="wrapper">
             <div class="profile-card js-profile-card">
                 <div class="profile-card__img">
-                    <img src="https://res.cloudinary.com/muhammederdem/image/upload/v1537638518/Ba%C5%9Fl%C4%B1ks%C4%B1z-1.jpg"
-                        alt="profile card">
+                    <img :src="apiBaseURL + user_datails.profile_photo" alt="profile card">
                 </div>
 
                 <div class="profile-card__cnt js-profile-cnt">
-                    <div class="profile-card__name">Name</div>
-                    <div class="profile-card__txt">Bio</div>
-                    <div class="profile-card-loc">
-                        <span class="profile-card-loc__icon">
-                            <svg class="icon">
-                                <use xlink:href="#icon-location"></use>
-                            </svg>
-                        </span>
-
-                        <span class="profile-card-loc__txt">
-                            Locations
-                        </span>
-                    </div>
+                    <div class="profile-card__name">{{ user_datails.first_name }}</div>
+                    <h3 class="profile-card__name text-dark">@{{ user_datails.username }}</h3>
+                    <div class="profile-card__txt">{{ user_datails.bio }}</div>
 
                     <div class="profile-card-inf">
                         <div class="profile-card-inf__item">
@@ -36,10 +32,17 @@
                     </div>
 
                     <div class="profile-card-social">
+                        <a v-if="user_datails.facebook" :href="'https://www.facebook.com/' + user_datails.facebook"
+                            class="profile-card-social__item facebook" target="_blank">
+                            <span class="icon-font">
+                                <svg class="icon">
+                                    <use xlink:href="#icon-facebook"></use>
+                                </svg>
+                            </span>
+                        </a>
 
-
-                        <a href="https://twitter.com/iaMuhammedErdem" class="profile-card-social__item twitter"
-                            target="_blank">
+                        <a v-if="user_datails.twitter" :href="'https://twitter.com/' + user_datails.twitter"
+                            class="profile-card-social__item twitter" target="_blank">
                             <span class="icon-font">
                                 <svg class="icon">
                                     <use xlink:href="#icon-twitter"></use>
@@ -47,8 +50,8 @@
                             </span>
                         </a>
 
-                        <a href="https://www.instagram.com/iamuhammederdem" class="profile-card-social__item instagram"
-                            target="_blank">
+                        <a v-if="user_datails.instagram" :href="'https://www.instagram.com/' + user_datails.instagram"
+                            class="profile-card-social__item instagram" target="_blank">
                             <span class="icon-font">
                                 <svg class="icon">
                                     <use xlink:href="#icon-instagram"></use>
@@ -57,8 +60,8 @@
                         </a>
 
 
-
-                        <a href="https://github.com/muhammederdem" class="profile-card-social__item github" target="_blank">
+                        <a v-if="user_datails.github" :href="'https://github.com/' + user_datails.github"
+                            class="profile-card-social__item github" target="_blank">
                             <span class="icon-font">
                                 <svg class="icon">
                                     <use xlink:href="#icon-github"></use>
@@ -66,8 +69,8 @@
                             </span>
                         </a>
 
-
-                        <a href="http://muhammederdem.com.tr/" class="profile-card-social__item link" target="_blank">
+                        <a v-if="user_datails.website" :href="user_datails.website" class="profile-card-social__item link"
+                            target="_blank">
                             <span class="icon-font">
                                 <svg class="icon">
                                     <use xlink:href="#icon-link"></use>
@@ -78,27 +81,44 @@
                     </div>
 
                     <div class="profile-card-ctr">
-                        <button class="profile-card__button button--blue js-message-btn">Message</button>
-                        <button class="profile-card__button button--orange">Follow</button>
+                        <button class="profile-card__button button--blue js-message-btn">Follow</button>
+                        <button class="profile-card__button button--orange" @click="editProfileBtn">Edit Profile</button>
                     </div>
                 </div>
 
                 <div class="profile-card-message js-message">
-                    <form class="profile-card-form">
-                        <div class="profile-card-form__container">
-                            <textarea placeholder="Say something..."></textarea>
-                        </div>
+                    
+                    <form class="profile-card-form" @submit.prevent>
+					<div class="profile-card-form__container p-2">
+						<div class="row">
+							<div >
+							<input class="form-control mt-1" type="text" placeholder="Username" v-model="user_datails.username">
+							<input class="form-control mt-1" type="text" placeholder="Bio" v-model="user_datails.bio">
+							<input class="form-control mt-1" type="text" placeholder="First name" v-model="user_datails.first_name">
+							<input class="form-control mt-1" type="text" placeholder="Last name" v-model="user_datails.last_name">
+						</div>
+						<div>
+							<input class="form-control mt-1" type="text" placeholder="instagram username" v-model="user_datails.instagram">
+							<input class="form-control mt-1" type="text" placeholder="twitter username" v-model="user_datails.twitter">
+							<input class="form-control mt-1" type="text" placeholder="github username" v-model="user_datails.github">
+							<input class="form-control mt-1" type="text" placeholder="facebook username" v-model="user_datails.facebook">
+							<input class="form-control mt-1" type="text" placeholder="website link" v-model="user_datails.website">
+						</div>
+						</div>
+					</div>
 
-                        <div class="profile-card-form__bottom">
-                            <button class="profile-card__button button--blue js-message-close">
-                                Send
-                            </button>
+					<div class="profile-card-form__bottom">
+						<button
+						@click="editProfile"
+						class="profile-card__button button--blue js-message-close">
+							Edit
+						</button>
 
-                            <button class="profile-card__button button--gray js-message-close">
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
+						<button @click="editProfileBtn" class="profile-card__button button--gray js-message-close">
+							Cancel
+						</button>
+					</div>
+				</form>
 
                     <div class="profile-card__overlay js-message-close"></div>
                 </div>
@@ -109,7 +129,7 @@
 
         <svg hidden="hidden">
             <defs>
-            
+
                 <symbol id="icon-github" viewBox="0 0 32 32">
                     <title>github</title>
                     <path
@@ -135,16 +155,6 @@
                     </path>
                     <path
                         d="M12.128 26.4c0.032 0.128-0.096 0.256-0.288 0.288s-0.352-0.032-0.384-0.16c-0.032-0.128 0.096-0.256 0.288-0.288s0.352 0.032 0.384 0.16v0z">
-                    </path>
-                </symbol>
-
-                <symbol id="icon-location" viewBox="0 0 32 32">
-                    <title>location</title>
-                    <path
-                        d="M16 31.68c-0.352 0-0.672-0.064-1.024-0.16-0.8-0.256-1.44-0.832-1.824-1.6l-6.784-13.632c-1.664-3.36-1.568-7.328 0.32-10.592 1.856-3.2 4.992-5.152 8.608-5.376h1.376c3.648 0.224 6.752 2.176 8.608 5.376 1.888 3.264 2.016 7.232 0.352 10.592l-6.816 13.664c-0.288 0.608-0.8 1.12-1.408 1.408-0.448 0.224-0.928 0.32-1.408 0.32zM15.392 2.368c-2.88 0.192-5.408 1.76-6.912 4.352-1.536 2.688-1.632 5.92-0.288 8.672l6.816 13.632c0.128 0.256 0.352 0.448 0.64 0.544s0.576 0.064 0.832-0.064c0.224-0.096 0.384-0.288 0.48-0.48l6.816-13.664c1.376-2.752 1.248-5.984-0.288-8.672-1.472-2.56-4-4.128-6.88-4.32h-1.216zM16 17.888c-3.264 0-5.92-2.656-5.92-5.92 0-3.232 2.656-5.888 5.92-5.888s5.92 2.656 5.92 5.92c0 3.264-2.656 5.888-5.92 5.888zM16 8.128c-2.144 0-3.872 1.728-3.872 3.872s1.728 3.872 3.872 3.872 3.872-1.728 3.872-3.872c0-2.144-1.76-3.872-3.872-3.872z">
-                    </path>
-                    <path
-                        d="M16 32c-0.384 0-0.736-0.064-1.12-0.192-0.864-0.288-1.568-0.928-1.984-1.728l-6.784-13.664c-1.728-3.456-1.6-7.52 0.352-10.912 1.888-3.264 5.088-5.28 8.832-5.504h1.376c3.744 0.224 6.976 2.24 8.864 5.536 1.952 3.36 2.080 7.424 0.352 10.912l-6.784 13.632c-0.32 0.672-0.896 1.216-1.568 1.568-0.48 0.224-0.992 0.352-1.536 0.352zM15.36 0.64h-0.064c-3.488 0.224-6.56 2.112-8.32 5.216-1.824 3.168-1.952 7.040-0.32 10.304l6.816 13.632c0.32 0.672 0.928 1.184 1.632 1.44s1.472 0.192 2.176-0.16c0.544-0.288 1.024-0.736 1.28-1.28l6.816-13.632c1.632-3.264 1.504-7.136-0.32-10.304-1.824-3.104-4.864-5.024-8.384-5.216h-1.312zM16 29.952c-0.16 0-0.32-0.032-0.448-0.064-0.352-0.128-0.64-0.384-0.8-0.704l-6.816-13.664c-1.408-2.848-1.312-6.176 0.288-8.96 1.536-2.656 4.16-4.32 7.168-4.512h1.216c3.040 0.192 5.632 1.824 7.2 4.512 1.6 2.752 1.696 6.112 0.288 8.96l-6.848 13.632c-0.128 0.288-0.352 0.512-0.64 0.64-0.192 0.096-0.384 0.16-0.608 0.16zM15.424 2.688c-2.784 0.192-5.216 1.696-6.656 4.192-1.504 2.592-1.6 5.696-0.256 8.352l6.816 13.632c0.096 0.192 0.256 0.32 0.448 0.384s0.416 0.064 0.608-0.032c0.16-0.064 0.288-0.192 0.352-0.352l6.816-13.664c1.312-2.656 1.216-5.792-0.288-8.352-1.472-2.464-3.904-4-6.688-4.16h-1.152zM16 18.208c-3.424 0-6.24-2.784-6.24-6.24 0-3.424 2.816-6.208 6.24-6.208s6.24 2.784 6.24 6.24c0 3.424-2.816 6.208-6.24 6.208zM16 6.4c-3.072 0-5.6 2.496-5.6 5.6 0 3.072 2.528 5.6 5.6 5.6s5.6-2.496 5.6-5.6c0-3.104-2.528-5.6-5.6-5.6zM16 16.16c-2.304 0-4.16-1.888-4.16-4.16s1.888-4.16 4.16-4.16c2.304 0 4.16 1.888 4.16 4.16s-1.856 4.16-4.16 4.16zM16 8.448c-1.952 0-3.552 1.6-3.552 3.552s1.6 3.552 3.552 3.552c1.952 0 3.552-1.6 3.552-3.552s-1.6-3.552-3.552-3.552z">
                     </path>
                 </symbol>
 
@@ -184,107 +194,104 @@
 <script>
 import axios from 'axios';
 export default {
-	name: 'Profile',
-	data() {
-		return {
-			isLoading: false,
-			profile_username: '',
-			user_found: false,
-			user_datails: [],
-		}
-	},
-	props: {
-		username: {
-			type: String,
-			required: false
-		},
-		apiBaseURL:{
-            type: String,
-            required: true
+    name: 'Profile',
+    data() {
+        return {
+            isLoading: false,
+            profile_username: '',
+            user_found: false,
+            user_datails: [],
+            apiBaseURL: axios.defaults.baseURL,
         }
-	},
-	methods: {
-		async getUser() {
-			try {
-				const users = await axios.get('/api/users/')
-				this.profile_username = this.$route.params.username
-				users.data.forEach(e => {
-					if (this.profile_username == e.username) {
-						this.user_found = true
-					}
-				});
-			} catch (error) {
-				this.user_found = false
-				console.log(error.message);
-			}
-		},
-		async getUserDetails() {
-			try {
-				this.isLoading = true
-				const user = await axios.get(`/api/users/${this.$route.params.username}/`)
-				const profile = await axios.get(`/api/profiles/${user.data.id}/`)
-				let user_details_arr = {
-					id: user.data.id,
-					email: user.data.email,
-					username: user.data.username,
-					first_name: user.data.first_name,
-					last_name: user.data.last_name,
-					profile_photo: profile.data.profile_photo,
-					bio: profile.data.bio,
-					instagram: profile.data.instagram,
-					twitter: profile.data.twitter,
-					facebook: profile.data.facebook,
-					github: profile.data.github,
-					website: profile.data.website,
-				}
-				this.user_datails = user_details_arr
-			} catch (error) {
-				console.log(error.message)
-			} finally {
-				this.isLoading = false
-			}
-		},
-		editProfileBtn() {
-			let card = document.querySelector('.js-profile-card')
-			card.classList.toggle('active')
-		},
-		async editProfile(){
-			const userFormData= {
-				id: this.user_datails.id,
-				email: this.user_datails.email,
-				username: this.user_datails.username.toLowerCase(),
-				gender: this.user_datails.gender,
-				last_name: this.user_datails.last_name,
-				first_name: this.user_datails.first_name
-			}
-			const profileFormData=
-				{
-					bio: this.user_datails.bio,
-					verifyed: this.user_datails.verifyed,
-					instagram: this.user_datails.instagram,
-					twitter: this.user_datails.twitter,
-					github: this.user_datails.github,
-					facebook: this.user_datails.facebook,
-					website: this.user_datails.website,
-					user: this.user_datails.id
-				}
-			try {
-				await axios.post(`/api/users/updata/${this.user_datails.id}/`, userFormData )
-				const reqponse = await axios.post(`/api/profiles/updata/${this.user_datails.id}/`, profileFormData)
-				console.log(reqponse);
-			} catch (error) {
-				alert(error.message)
-			}finally{
-				this.$router.push('@'+ this.user_datails.username.toLowerCase())
-				this.editProfileBtn()
-			}
-		}
-	},
+    },
+    props: {
+        username: {
+            type: String,
+            required: false
+        },
+    },
+    methods: {
+        async getUser() {
+            try {
+                const users = await axios.get('/api/users/')
+                this.profile_username = this.$route.params.username
+                users.data.forEach(e => {
+                    if (this.profile_username == e.username) {
+                        this.user_found = true
+                    }
+                });
+            } catch (error) {
+                this.user_found = false
+                console.log(error.message);
+            }
+        },
+        async getUserDetails() {
+            try {
+                this.isLoading = true
+                const user = await axios.get(`/api/users/${this.$route.params.username}/`)
+                const profile = await axios.get(`/api/profiles/${user.data.id}/`)
+                let user_details_arr = {
+                    id: user.data.id,
+                    email: user.data.email,
+                    username: user.data.username,
+                    first_name: user.data.first_name,
+                    last_name: user.data.last_name,
+                    profile_photo: profile.data.profile_photo,
+                    bio: profile.data.bio,
+                    instagram: profile.data.instagram,
+                    twitter: profile.data.twitter,
+                    facebook: profile.data.facebook,
+                    github: profile.data.github,
+                    website: profile.data.website,
+                }
+                this.user_datails = user_details_arr
+            } catch (error) {
+                console.log(error.message)
+            } finally {
+                this.isLoading = false
+            }
+        },
+        editProfileBtn() {
+            let card = document.querySelector('.js-profile-card')
+            card.classList.toggle('active')
+        },
+        async editProfile() {
+            const userFormData = {
+                id: this.user_datails.id,
+                email: this.user_datails.email,
+                username: this.user_datails.username.toLowerCase(),
+                gender: this.user_datails.gender,
+                last_name: this.user_datails.last_name,
+                first_name: this.user_datails.first_name
+            }
+            const profileFormData =
+            {
+                bio: this.user_datails.bio,
+                verifyed: this.user_datails.verifyed,
+                instagram: this.user_datails.instagram,
+                twitter: this.user_datails.twitter,
+                github: this.user_datails.github,
+                facebook: this.user_datails.facebook,
+                website: this.user_datails.website,
+                user: this.user_datails.id
+            }
+            try {
+                await axios.post(`/api/users/updata/${this.user_datails.id}/`, userFormData)
+                const reqponse = await axios.post(`/api/profiles/updata/${this.user_datails.id}/`, profileFormData)
+                console.log(reqponse);
+            } catch (error) {
+                alert(error.message)
+            } finally {
+                this.$router.push('@' + this.user_datails.username.toLowerCase())
+                this.editProfileBtn()
+            }
+        }
+    },
 
-	mounted() {
-		this.getUser()
-		this.getUserDetails()
-	}
+    mounted() {
+        this.getUser()
+        this.getUserDetails()
+    }
 }
 </script>
 <style >
@@ -719,4 +726,5 @@ a:hover {
     background: rgba(22, 33, 72, 0.35);
     border-radius: 12px;
     transition: all 0.3s;
-}</style>
+}
+</style>
