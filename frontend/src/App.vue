@@ -1,6 +1,6 @@
 <template>
   <Navbar username="username" IsAuthenticated="IsAuthenticated"/>
-  <router-view @Login="Login" @Signup="Signup" />
+  <router-view @Login="Login" @Signup="Signup" username="username"/>
 </template>
 <script>
 import axios from 'axios'

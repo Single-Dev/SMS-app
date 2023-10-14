@@ -81,46 +81,58 @@
                     </div>
 
                     <div class="profile-card-ctr">
-                        <button class="profile-card__button button--blue js-message-btn">Follow</button>
-                        <button class="profile-card__button button--orange" @click="editProfileBtn">Edit Profile</button>
+
+                        <button v-if="profile_username != username" class="profile-card__button button--blue js-message-btn">
+                            Follow
+                        </button>
+                        <button v-else class="profile-card__button button--orange" @click="editProfileBtn">
+                            Edit Profile
+                        </button>
+
                     </div>
                 </div>
 
-                <div class="profile-card-message js-message">
-                    
+                <div class="profile-card-message js-message p-5">
+
                     <form class="profile-card-form" @submit.prevent>
-					<div class="profile-card-form__container p-2">
-						<div class="row">
-							<div >
-							<input class="form-control mt-1" type="text" placeholder="Username" v-model="user_datails.username">
-							<input class="form-control mt-1" type="text" placeholder="Bio" v-model="user_datails.bio">
-							<input class="form-control mt-1" type="text" placeholder="First name" v-model="user_datails.first_name">
-							<input class="form-control mt-1" type="text" placeholder="Last name" v-model="user_datails.last_name">
-						</div>
-						<div>
-							<input class="form-control mt-1" type="text" placeholder="instagram username" v-model="user_datails.instagram">
-							<input class="form-control mt-1" type="text" placeholder="twitter username" v-model="user_datails.twitter">
-							<input class="form-control mt-1" type="text" placeholder="github username" v-model="user_datails.github">
-							<input class="form-control mt-1" type="text" placeholder="facebook username" v-model="user_datails.facebook">
-							<input class="form-control mt-1" type="text" placeholder="website link" v-model="user_datails.website">
-						</div>
-						</div>
-					</div>
+                        <div class="profile-card-form__container p-2">
+                            <div class="row">
+                                <div>
+                                    <input class="form-control mt-1" type="text" placeholder="Username"
+                                        v-model="user_datails.username">
+                                    <input class="form-control mt-1" type="text" placeholder="Bio"
+                                        v-model="user_datails.bio">
+                                    <input class="form-control mt-1" type="text" placeholder="First name"
+                                        v-model="user_datails.first_name">
+                                    <input class="form-control mt-1" type="text" placeholder="Last name"
+                                        v-model="user_datails.last_name">
+                                </div>
+                                <div>
+                                    <input class="form-control mt-1" type="text" placeholder="instagram username"
+                                        v-model="user_datails.instagram">
+                                    <input class="form-control mt-1" type="text" placeholder="twitter username"
+                                        v-model="user_datails.twitter">
+                                    <input class="form-control mt-1" type="text" placeholder="github username"
+                                        v-model="user_datails.github">
+                                    <input class="form-control mt-1" type="text" placeholder="facebook username"
+                                        v-model="user_datails.facebook">
+                                    <input class="form-control mt-1" type="text" placeholder="website link"
+                                        v-model="user_datails.website">
+                                </div>
+                            </div>
+                        </div>
 
-					<div class="profile-card-form__bottom">
-						<button
-						@click="editProfile"
-						class="profile-card__button button--blue js-message-close">
-							Edit
-						</button>
+                        <div class="profile-card-form__bottom">
+                            <button @click="editProfile" class="profile-card__button button--blue js-message-close">
+                                Edit
+                            </button>
 
-						<button @click="editProfileBtn" class="profile-card__button button--gray js-message-close">
-							Cancel
-						</button>
-					</div>
-				</form>
+                            <button @click="editProfileBtn" class="profile-card__button button--gray js-message-close">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
 
-                    <div class="profile-card__overlay js-message-close"></div>
                 </div>
 
             </div>
@@ -207,7 +219,7 @@ export default {
     props: {
         username: {
             type: String,
-            required: false
+            required: true
         },
     },
     methods: {
@@ -294,7 +306,7 @@ export default {
     }
 }
 </script>
-<style >
+<style scoped>
 @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700&subset=latin-ext');
 
 html {
@@ -569,7 +581,7 @@ a:hover {
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
     font-size: 19px;
-    margin: 15px 35px;
+    margin: 15px 5px;
     padding: 15px 40px;
     min-width: 201px;
     border-radius: 50px;
@@ -726,5 +738,4 @@ a:hover {
     background: rgba(22, 33, 72, 0.35);
     border-radius: 12px;
     transition: all 0.3s;
-}
-</style>
+}</style>
