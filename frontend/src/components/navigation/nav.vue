@@ -2,7 +2,7 @@
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">E-Cash</a>
+                    <a class="navbar-brand" href="#">Anonym SMS</a>
                     <button
                     @click="toggler"
                     class="navbar-toggler"
@@ -16,7 +16,8 @@
                                 <router-link class="nav-link" to="/">Home</router-link>
                             </li>
                             <li v-if="IsAuthenticated" class="nav-item">
-                                <router-link class="nav-link" :to='"/@" + username'>Profile</router-link>
+                                <router-link class="nav-link" :to="'/@' + username">Profile</router-link>
+                                <i class="fa-solid fa-arrow-right-from-bracket fa-sm" @click="$emit('onExit')" />
                             </li>
                             <div v-else>
                                 <li class="nav-item">
@@ -34,10 +35,10 @@
     </div>
 </template>
 <script>
-export default{
+export default {
     props:{
         IsAuthenticated:{
-            type: String,
+            type: Boolean,
             required: true
         },
         username:{

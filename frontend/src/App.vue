@@ -1,6 +1,6 @@
 <template>
-  <Navbar username="username" IsAuthenticated="IsAuthenticated"/>
-  <router-view @Login="Login" @Signup="Signup" username="username"/>
+  <Navbar username="username" IsAuthenticated="IsAuthenticated" @onExit="logout"/>
+  <router-view @Login="Login" @Signup="Signup" username="username" />
 </template>
 <script>
 import axios from 'axios'
@@ -69,9 +69,22 @@ export default {
         alert(error.message)
       }
     },
+    async logout() {
+      try {
+        await axios.post('/api/v1/token/logout/')
+        localStorage.removeItem('token')
+        axios.defaults.headers.common['Authorization'] = ''
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.IsAuthenticated = false
+        this.$router.push('/login')
+      }
+    },
   },
   mounted() {
     this.beforeCrete()
+    this.getMe()
   },
 }
 </script>
