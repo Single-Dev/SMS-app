@@ -1,6 +1,6 @@
 <template>
-  <Navbar username="username" IsAuthenticated="IsAuthenticated" @onExit="logout"/>
-  <router-view @Login="Login" @Signup="Signup" username="username" />
+  <Navbar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout"/>
+  <router-view @Login="Login" @Signup="Signup" :username="username" />
 </template>
 <script>
 import axios from 'axios'
@@ -32,7 +32,6 @@ export default {
         .then(response => {
           this.username = response.data.username
           this.user_id = response.data.id
-          console.log(this.username);
         })
         .catch(error => {
           this.$router.push('/login')
