@@ -15,7 +15,7 @@
                             <li class="nav-item active">
                                 <router-link class="nav-link" to="/">Home</router-link>
                             </li>
-                            <li v-if="IsAuthenticated" class="nav-item">
+                            <li v-if="IsAuthenticated == true" class="nav-item">
                                 <router-link class="nav-link" :to="'/@' + username">Profile</router-link>
                                 <i class="fa-solid fa-arrow-right-from-bracket fa-sm" @click="$emit('onExit')" />
                             </li>
