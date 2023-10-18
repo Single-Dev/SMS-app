@@ -82,7 +82,8 @@
 
                     <div class="profile-card-ctr">
 
-                        <button v-if="profile_username != username" class="profile-card__button button--blue js-message-btn">
+                        <button v-if="profile_username != username"
+                            class="profile-card__button button--blue js-message-btn">
                             Follow
                         </button>
                         <button v-else class="profile-card__button button--orange" @click="editProfileBtn">
@@ -321,6 +322,8 @@ html {
 body {
     font-family: 'Quicksand', sans-serif;
     color: #324e63;
+    transition: 1s all;
+    transition-delay:1s ;
 }
 
 a,
@@ -738,4 +741,5 @@ a:hover {
     background: rgba(22, 33, 72, 0.35);
     border-radius: 12px;
     transition: all 0.3s;
-}</style>
+}
+</style>

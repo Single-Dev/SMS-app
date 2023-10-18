@@ -1,13 +1,16 @@
 <template>
-  <Navbar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout"/>
+  <!-- <Navbar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout"/> -->
+  <SideBar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout"/>
   <router-view @Login="Login" @Signup="Signup" :username="username" />
 </template>
 <script>
 import axios from 'axios'
 import Navbar from '@/components/navigation/nav.vue'
+import SideBar from '@/components/navigation/SideBar.vue'
 export default {
   components: {
-    Navbar
+    Navbar,
+    SideBar
   },
   data() {
     return {
@@ -71,11 +74,10 @@ export default {
     async logout() {
       try {
         await axios.post('/api/v1/token/logout/')
-        localStorage.removeItem('token')
         axios.defaults.headers.common['Authorization'] = ''
       } catch (error) {
-        alert(error.message)
       } finally {
+        localStorage.removeItem('token')
         this.IsAuthenticated = false
         this.$router.push('/login')
       }
