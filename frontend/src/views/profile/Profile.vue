@@ -32,14 +32,6 @@
                     </div>
 
                     <div class="profile-card-social">
-                        <a v-if="user_datails.facebook" :href="'https://www.facebook.com/' + user_datails.facebook"
-                            class="profile-card-social__item facebook" target="_blank">
-                            <span class="icon-font">
-                                <svg class="icon">
-                                    <use xlink:href="#icon-facebook"></use>
-                                </svg>
-                            </span>
-                        </a>
 
                         <a v-if="user_datails.twitter" :href="'https://twitter.com/' + user_datails.twitter"
                             class="profile-card-social__item twitter" target="_blank">
@@ -115,8 +107,6 @@
                                         v-model="user_datails.twitter">
                                     <input class="form-control mt-1" type="text" placeholder="github username"
                                         v-model="user_datails.github">
-                                    <input class="form-control mt-1" type="text" placeholder="facebook username"
-                                        v-model="user_datails.facebook">
                                     <input class="form-control mt-1" type="text" placeholder="website link"
                                         v-model="user_datails.website">
                                 </div>
@@ -253,7 +243,6 @@ export default {
                     bio: profile.data.bio,
                     instagram: profile.data.instagram,
                     twitter: profile.data.twitter,
-                    facebook: profile.data.facebook,
                     github: profile.data.github,
                     website: profile.data.website,
                 }

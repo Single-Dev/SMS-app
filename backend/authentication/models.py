@@ -30,7 +30,6 @@ class Profile(models.Model):
     instagram = models.CharField(max_length=150, null=True, blank=True)
     twitter = models.CharField(max_length=150, null=True, blank=True)
     github = models.CharField(max_length=150, null=True, blank=True)
-    facebook = models.CharField(max_length=150, null=True, blank=True)
     website = models.CharField(max_length=150, null=True, blank=True)
     def __str__(self):
         return f"id: {self.id}, {self.user}"

@@ -23,7 +23,7 @@
               Search
             </span>
           </li>
-          <div v-if="isLoggedIn == false">
+          <div v-if="IsAuthenticated == false">
             <li id="login">
               <router-link to="/login">
                 <i class="bx bxs-log-in bx-square-rounded"></i>
@@ -34,7 +34,7 @@
               </span>
             </li>
             <li id="signup">
-              <router-link to="/signup">
+              <router-link to="/sign-up">
                 <i class="bx bx-user-plus bx-square-rounded"></i>
                 <span class="links_name">Signup</span>
               </router-link>
