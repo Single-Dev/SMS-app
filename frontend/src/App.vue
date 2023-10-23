@@ -1,6 +1,6 @@
 <template>
   <!-- <Navbar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout"/> -->
-  <SideBar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout"/>
+  <SideBar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout" />
   <router-view @Login="Login" @Signup="Signup" :username="username" />
 </template>
 <script>
@@ -81,6 +81,32 @@ export default {
         this.IsAuthenticated = false
         this.$router.push('/login')
       }
+    },
+    async searchForUser() {
+      try {
+        this.users = [];
+        this.getting_users = true
+        const response = await axios.get(`/api/users/?search=${this.term}`)
+        const profiles = await axios.get('/api/profiles/')
+        response.data.forEach(e => {
+          const profile = profiles.data.find(profile => profile.user === e.id);
+          const user = {
+            id: e.id,
+            first_name: e.first_name,
+            last_name: e.last_name,
+            email: e.email,
+            username: e.username,
+            profile_photo: profile.profile_photo,
+            bio: profile.bio
+          }
+          this.users.push(user)
+        })
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        this.getting_users = false
+      }
+
     },
   },
   mounted() {
