@@ -1,6 +1,11 @@
 <template>
   <!-- <Navbar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout"/> -->
-  <SideBar :username="username" :IsAuthenticated="IsAuthenticated" @onExit="logout" />
+  <SideBar
+  :username="username"
+  :IsAuthenticated="IsAuthenticated"
+  @UpdateTerm="onTermHandler"
+  @onExit="logout"
+   />
   <router-view @Login="Login" @Signup="Signup" :username="username" />
 </template>
 <script>
@@ -107,6 +112,16 @@ export default {
         this.getting_users = false
       }
 
+    },
+    onTermHandler(term) {
+      this.term = term
+      const currentPath = this.$router.currentRoute._rawValue.href
+      if (this.term.length > 3) {
+        this.searchForUser()
+      }
+      if (currentPath != '/result' && this.term.length > 3) {
+        this.$router.push('/result')
+      }
     },
   },
   mounted() {
