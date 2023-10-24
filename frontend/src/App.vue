@@ -22,6 +22,8 @@ export default {
       IsAuthenticated: false,
       username: '',
       user_id: '',
+      users:[],
+      getting_users: false
     }
   },
   methods: {
@@ -105,6 +107,7 @@ export default {
             bio: profile.bio
           }
           this.users.push(user)
+          console.log(this.users);
         })
       } catch (error) {
         console.log(error.message);
